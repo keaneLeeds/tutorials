@@ -1,0 +1,29 @@
+#include <nan.h>
+#include <node.h>
+#include <v8.h>
+
+using namespace v8;
+
+NAN_METHOD(Print) {
+    Local<String> str = args[0].As<String>();
+    printf("%s\n", *String::Utf8Value(str));
+    NanReturnUndefined();
+}
+
+NAN_METHOD(Length) {
+    NanScope();
+    Local<String> str = args[0].As<String>();
+    int len = strlen(*String::Utf8Value(str));
+    Local<Number> num = NanNew<Number>(len);
+    printf("length: %s\n", len);
+    NanReturnUndefined();
+}
+
+void Init(Handle<Object> exports) {
+    //exports->Set(NanNew("print"), NanNew<FunctionTemplate>(Print)->GetFunction());
+    //printf("%s", exports);
+    exports->Set(NanNew("length"), NanNew<FunctionTemplate>(Length)->GetFunction());
+}
+
+NODE_MODULE(myaddon, Init);
+

@@ -1,0 +1,9 @@
+var express = require("express");
+var app = express();
+
+app.get("/search", function(req, res) {
+    var ary = req.query.*;
+    res.send(ary);
+});
+
+app.listen(process.argv[2]);

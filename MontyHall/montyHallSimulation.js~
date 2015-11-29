@@ -1,0 +1,58 @@
+
+(function monteCarloMontyHallNumericalSimulation() {
+    var victory = 0;
+    var loss = 0;
+    var strategy = process.argv[2];
+    //console.log(strategy);
+    var repetitions = process.argv[3];
+    if(repetitions > Number.MAX_VALUE) {
+        repetitions = Number.MAX_VALUE;
+    }
+    //console.log(repetitions);
+    var treasure;
+    var choice;
+    var doors;
+
+    for(var j = 0; j<repetitions; j++) {
+        doors = ["donkey", "donkey", "donkey"];
+        treasure =  Math.floor((Math.random() * 3));
+        //console.log(treasure);
+        choice = Math.floor((Math.random() * 3));
+        //console.log(choice);
+        doors[treasure] = "treasure";
+        //console.log(doors);
+        if(strategy==="stay") {
+            if(doors[choice]==="treasure") {
+              victory++;
+            } else {
+                loss++;
+            }
+        } else if(strategy==="switch") {
+            //console.log(strategy);
+            for(var i = 0; i<doors.length; i++) {
+                //console.log(doors);
+                if(doors[i] !== "treasure" && i !== choice) {
+                    doors.splice(i,1);
+                    console.log(doors, choice);
+                    break;
+                }
+            }
+
+            if(choice === 2) {
+                choice = 0;
+            } else if(choice === 1) {
+                choice = 0;
+            } else if(choice === 0) {
+                choice = 1;
+            }
+            if(doors[choice]==="treasure") {
+                victory++;
+            } else {
+                loss++;
+            }
+        }
+    }
+    console.log("win: " + victory);
+    console.log("lose: " + loss);
+    console.log("percent win: " + victory / (victory+loss));
+}())
